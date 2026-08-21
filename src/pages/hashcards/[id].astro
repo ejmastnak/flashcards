@@ -1,0 +1,101 @@
+---
+import { marked } from 'marked';
+import { getCollection } from 'astro:content';
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const hashcards = await getCollection('hashcards');
+
+  return hashcards.map(deck => ({
+    params: { id: deck.id },
+    props: { deck },
+  }));
+}
+
+const { deck } = Astro.props;
+
+const title = deck.id
+const description = ""
+
+const parsedCards = deck.data.cards.map(card =>
+  ({
+      question: marked.parse(card.question),
+      answer: marked.parse(card.answer),
+    })
+);
+---
+
+<script
+  type="application/json"
+  id="deck-data"
+  set:html={JSON.stringify(parsedCards)}
+>
+</script>
+
+<script>
+  import DOMPurify from 'dompurify';
+
+  const dataElement = document.getElementById('deck-data');
+  const cards = JSON.parse(dataElement.textContent);
+  const question = document.getElementById('question');
+  const answer = document.getElementById('answer');
+
+  const STATE_SHOWING_QUESTION = 1
+  const STATE_SHOWING_ANSWER = 2
+
+  var currentCard = null;
+  var currentState = null;
+
+  function updateCard() {
+    const idx = Math.floor(Math.random() * cards.length);
+    currentCard = cards[idx];
+  }
+
+  function updateContent() {
+    if (currentState == STATE_SHOWING_QUESTION) {
+      const html = currentCard['answer'];
+      const clean = DOMPurify.sanitize(html);
+      document.getElementById('answer').innerHTML = clean;
+      currentState = STATE_SHOWING_ANSWER;
+    } else {
+      document.getElementById('question').innerHTML = "";
+      document.getElementById('answer').innerHTML = "";
+      updateCard()
+      const html = currentCard['question'];
+      const clean = DOMPurify.sanitize(html);
+      document.getElementById('question').innerHTML = clean;
+      currentState = STATE_SHOWING_QUESTION;
+    }
+  }
+
+  // Initialize
+  updateContent()
+
+  document.getElementById("container").addEventListener("click", updateContent);
+  document.getElementById("nextButton").addEventListener("click", (event) => {
+    event.stopPropagation();
+    updateContent();
+  });
+
+  </script>
+
+<BaseLayout title={title}>
+  <div id="container">
+    
+    <section class="max-w-2xl mx-auto">
+
+      <div class="h-[50vh] prose">
+        <div id="question"></div>
+        <div id="answer" class="mt-5"></div>
+      </div>
+
+      <div class="mt-5 pt-5 border-t border-gray-200 mx-auto">
+        <button id="nextButton" type="button" class="block mx-auto px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50">
+          Next
+        </button>
+      </div>
+
+    </section>
+  
+  </div>
+</BaseLayout>

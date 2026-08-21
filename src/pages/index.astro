@@ -1,0 +1,24 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection } from 'astro:content';
+
+const title = "Flashcards"
+
+const hashcards = await getCollection('hashcards');
+---
+
+<BaseLayout title={title}>
+  <h1 class="text-lg text-gray-500">Flashcards</h1>
+
+  <h2 class="mt-8 text-3xl">Hashcards</h2>
+  <ul class="mt-2">
+    {hashcards.map(deck => (
+    <li>
+      <a href={`/hashcards/${deck.id}`}>
+        {deck.id}
+      </a>
+    </li>
+    ))}
+  </ul>
+
+</BaseLayout>
