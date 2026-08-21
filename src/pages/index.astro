@@ -1,14 +1,32 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from 'astro:content';
+import { path2slug, path2id } from "@/lib/flashcards.js";
 
 const title = "Flashcards"
 
 const hashcards = await getCollection('hashcards');
+
+const flashcards = import.meta.glob("../content/flashcards/**/*.ts", {
+  eager: true,
+});
+
 ---
 
 <BaseLayout title={title}>
+
   <h1 class="text-lg text-gray-500">Flashcards</h1>
+
+  <h2 class="mt-8 text-3xl">Flashcards</h2>
+  <ul class="mt-2">
+    {Object.keys(flashcards).map(path => (
+    <li>
+      <a href={`/flashcards/${path2slug(path)}`}>
+        {path2slug(path)}
+      </a>
+    </li>
+    ))}
+  </ul>
 
   <h2 class="mt-8 text-3xl">Hashcards</h2>
   <ul class="mt-2">

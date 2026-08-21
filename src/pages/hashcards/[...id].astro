@@ -15,7 +15,6 @@ export async function getStaticPaths() {
 const { deck } = Astro.props;
 
 const title = deck.id
-const description = ""
 
 const parsedCards = deck.data.cards.map(card =>
   ({
@@ -37,6 +36,7 @@ const parsedCards = deck.data.cards.map(card =>
 
   const dataElement = document.getElementById('deck-data');
   const cards = JSON.parse(dataElement.textContent);
+
   const question = document.getElementById('question');
   const answer = document.getElementById('answer');
 
@@ -81,7 +81,7 @@ const parsedCards = deck.data.cards.map(card =>
 
 <BaseLayout title={title}>
   <div id="container">
-    
+
     <section class="max-w-2xl mx-auto">
 
       <div class="h-[50vh] prose">
