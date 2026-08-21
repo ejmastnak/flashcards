@@ -18,7 +18,7 @@ const flashcards = import.meta.glob("../content/flashcards/**/*.ts", {
   <h1 class="text-lg text-gray-500">Flashcards</h1>
 
   <h2 class="mt-8 text-3xl">Flashcards</h2>
-  <ul class="mt-2">
+  <ul class="mt-3 space-y-1">
     {Object.keys(flashcards).map(path => (
     <li>
       <a href={`/flashcards/${path2slug(path)}`}>
@@ -29,7 +29,7 @@ const flashcards = import.meta.glob("../content/flashcards/**/*.ts", {
   </ul>
 
   <h2 class="mt-8 text-3xl">Hashcards</h2>
-  <ul class="mt-2">
+  <ul class="mt-3 space-y-1">
     {hashcards.map(deck => (
     <li>
       <a href={`/hashcards/${deck.id}`}>
