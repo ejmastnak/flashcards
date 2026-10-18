@@ -40,7 +40,6 @@ const title = path2id(path);
   const modules = import.meta.glob("../../content/flashcards/**/*.ts");
   const dataElement = document.getElementById('module-path');
   const path = JSON.parse(dataElement.textContent);
-  console.log(dataElement.textContent);
   const module = await modules[path]()
 
   const question = document.getElementById('question');

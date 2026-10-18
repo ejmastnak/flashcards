@@ -80,17 +80,18 @@ const parsedCards = deck.data.cards.map(card =>
   </script>
 
 <BaseLayout title={title}>
-  <div id="container">
+  <div id="container" class="min-h-screen">
 
     <section class="max-w-2xl mx-auto">
 
-      <div class="h-[50vh] prose">
+      <div class="prose">
         <div id="question"></div>
-        <div id="answer" class="mt-5"></div>
+        Large pb to offset fixed-position "Next" button bottom of screen
+        <div id="answer" class="mt-5 pb-32"></div>
       </div>
 
-      <div class="mt-5 pt-5 border-t border-gray-200 mx-auto">
-        <button id="nextButton" type="button" class="block mx-auto px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50">
+      <div class="fixed bottom-0 mx-auto left-0 right-0 w-full px-8 py-6 bg-white/70">
+        <button id="nextButton" type="button" class="block mx-auto px-5 py-3 border border-gray-300 rounded-md hover:bg-gray-50">
           Next
         </button>
       </div>
